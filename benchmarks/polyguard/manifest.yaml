@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+name: polyguard
+version: 0.1.0
+experimental: true
+kind: benchmark
+integration_profile: custom-gym-verifier
+domain: safety
+description: PolyGuardPrompts canonical prompt and response safety classification in 17 languages.
+modality: text
+licensing: Apache-2.0 AND CC-BY-4.0
+authors: [NVIDIA NeMo Gym contributors]
+reward:
+  range: [0.0, 1.0]
+  higher_is_better: true
+determinism: stochastic
+resources_server: multilingual_safety
+dataset_owner: polyguard_simple_agent
+agent_server: simple_agent
+model_server: policy_model
+datasets:
+  - name: polyguard
+    type: benchmark
+    jsonl_fpath: benchmarks/polyguard/data/polyguard_benchmark.jsonl
+    prepare_script: benchmarks/polyguard/prepare.py
+    num_repeats: 1
+canonical_split: benchmark
+prompt_source: prepared
+session_model: episode
+state: none
+lifecycle: active

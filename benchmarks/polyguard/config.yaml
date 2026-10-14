@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+config_paths:
+  - resources_servers/multilingual_safety/configs/multilingual_safety.yaml
+
+polyguard_resources_server:
+  _inherit_from: multilingual_safety
+  resources_servers:
+    multilingual_safety: {}
+
+polyguard_simple_agent:
+  _inherit_from: multilingual_safety_simple_agent
+  responses_api_agents:
+    simple_agent:
+      resources_server:
+        name: polyguard_resources_server
+      datasets:
+        - name: polyguard
+          type: benchmark
+          jsonl_fpath: benchmarks/polyguard/data/polyguard_benchmark.jsonl
+          prepare_script: benchmarks/polyguard/prepare.py
+          num_repeats: 1
+          license: Creative Commons Attribution 4.0 International
+
+polyguard_environment_server:
+  _inherit_from: multilingual_safety_environment_server
+  environment_servers:
+    legacy_agent:
+      agent_server:
+        name: polyguard_simple_agent
