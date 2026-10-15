@@ -57,17 +57,24 @@ From the Gym repository with its dependencies installed:
 gym eval prepare --benchmark polyguard
 
 gym eval run --benchmark polyguard \
-  --model-type vllm_model \
+  --config resources_servers/multilingual_safety/configs/nemotron_content_safety_model.yaml \
   --model MODEL_NAME \
   --model-url http://HOST:PORT/v1 \
   --model-api-key dummy \
   --split benchmark \
-  --output results/polyguard/rollouts.jsonl
+  --output results/polyguard/rollouts.jsonl \
+  +require_complete=true
 ```
 
 Use a content-safety model endpoint that applies its own classifier chat
 template to user/assistant messages. An ordinary instruction model requires an
 explicit classifier rubric; native inputs alone do not ask it to classify.
+The example model config preserves all source assistant text and disables classifier
+thinking and category generation. Do not add `--model-type vllm_model` alongside it:
+loading the base model config again can override its native chat-template settings.
+For Nemotron 3.5 revision `35645ed3543b7e7ffaed2e788699e57a5051497c`, a 64K context
+window covers the full release: the longest native input contains 43,868 tokens
+before the output budget.
 No full model baseline is included; the integration remains experimental and
 the resources server is `verified: false`.
 

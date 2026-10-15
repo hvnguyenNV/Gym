@@ -58,11 +58,12 @@ gym eval prepare --benchmark linguasafe
 gym eval run \
   --benchmark linguasafe \
   --split benchmark \
-  --model-type vllm_model \
+  --config resources_servers/multilingual_safety/configs/nemotron_content_safety_model.yaml \
   --model-url http://CLASSIFIER_HOST:8000/v1 \
   --model-api-key EMPTY \
   --model CLASSIFIER_MODEL_NAME \
-  --output outputs/linguasafe/benchmark_rollouts.jsonl
+  --output outputs/linguasafe/benchmark_rollouts.jsonl \
+  +require_complete=true
 ```
 
 Preparation uses Hugging Face's normal local dataset cache. It writes
@@ -83,6 +84,9 @@ content-safety model. The shared verifier also accepts a strict JSON
 prepared dataset does not instruct a general chat model to emit JSON. The
 classifier's own policy can disagree with the derived LinguaSafe reference
 mapping; record its model version and policy when reporting results.
+The example config disables classifier thinking and category generation. Use it
+without an additional `--model-type` selector, which can reload the base model
+config and override the native chat-template settings.
 
 The verifier gives reward 1 for a valid verdict matching the reference, and 0
 for an incorrect or invalid verdict. Use the shared multilingual-safety report
@@ -92,6 +96,9 @@ averages. Report original severity slices, especially level 1, alongside the
 binary score. Categories are preserved for analysis; no cross-benchmark category
 mapping is applied. `experimental: true` remains set until real classifier
 rollouts are inspected and a baseline is established.
+The binary references are 88.48% unsafe, so always predicting unsafe already
+achieves 88.48% accuracy and 93.89% unsafe F1. Include benign false positives and
+this constant baseline when interpreting classifier quality.
 
 ## Licensing and attribution
 

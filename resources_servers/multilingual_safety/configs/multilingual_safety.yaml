@@ -25,7 +25,7 @@ multilingual_safety_simple_agent:
         type: example
         jsonl_fpath: resources_servers/multilingual_safety/data/example.jsonl
         num_repeats: 1
-        license: Apache-2.0
+        license: Apache 2.0
 
 multilingual_safety_environment_server:
   environment_servers:

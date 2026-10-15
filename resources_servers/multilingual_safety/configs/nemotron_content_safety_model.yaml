@@ -8,5 +8,8 @@ policy_model_name: nvidia/Nemotron-3.5-Content-Safety
 policy_model:
   responses_api_models:
     vllm_model:
+      # Response classification must retain the complete source assistant text.
+      preserve_reasoning_in_assistant_content: true
       chat_template_kwargs:
         enable_thinking: false
+        request_categories: ""
