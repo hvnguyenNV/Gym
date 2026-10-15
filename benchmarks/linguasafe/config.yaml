@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+config_paths:
+- resources_servers/multilingual_safety/configs/multilingual_safety.yaml
+
+linguasafe_benchmark_resources_server:
+  _inherit_from: multilingual_safety
+  resources_servers:
+    multilingual_safety: {}
+
+linguasafe_benchmark_simple_agent:
+  _inherit_from: multilingual_safety_simple_agent
+  responses_api_agents:
+    simple_agent:
+      resources_server:
+        name: linguasafe_benchmark_resources_server
+      datasets:
+      - name: linguasafe
+        type: benchmark
+        jsonl_fpath: benchmarks/linguasafe/data/linguasafe_benchmark.jsonl
+        prepare_script: benchmarks/linguasafe/prepare.py
+        num_repeats: 1
+        license: CC-BY-NC-SA-4.0
+
+linguasafe_benchmark_environment_server:
+  _inherit_from: multilingual_safety_environment_server
+  environment_servers:
+    legacy_agent:
+      agent_server:
+        name: linguasafe_benchmark_simple_agent

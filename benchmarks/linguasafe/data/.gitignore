@@ -1,0 +1,4 @@
+# Downloaded or adapted CC BY-NC-SA data stays outside the Apache-2.0 source distribution.
+*
+!.gitignore
+!example.jsonl

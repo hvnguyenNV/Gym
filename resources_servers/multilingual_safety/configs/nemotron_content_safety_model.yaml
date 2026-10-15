@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+# Supply policy_base_url/policy_api_key for the separately running vLLM endpoint.
+config_paths:
+  - responses_api_models/vllm_model/configs/vllm_model.yaml
+
+policy_model_name: nvidia/Nemotron-3.5-Content-Safety
+policy_model:
+  responses_api_models:
+    vllm_model:
+      # Response classification must retain the complete source assistant text.
+      preserve_reasoning_in_assistant_content: true
+      chat_template_kwargs:
+        enable_thinking: false
+        request_categories: ""
